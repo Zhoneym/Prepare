@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sed -i 's|https://repo.openeuler.org|https://mirrors.tuna.tsinghua.edu.cn/openeuler|g' /etc/yum.repos.d/openEuler.repo
+sed -i 's|https://repo.openeuler.org|https://mirrors.ustc.edu.cn/openeuler|g' /etc/yum.repos.d/openEuler.repo
 sed -i 's|gpgcheck=1|gpgcheck=0|g' /etc/yum.repos.d/openEuler.repo
 sed -i '/^metalink=/d' /etc/yum.repos.d/openEuler.repo
 sed -i '/^metadata_expire=/d' /etc/yum.repos.d/openEuler.repo
