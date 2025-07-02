@@ -176,10 +176,30 @@ sed -i '/^\[Service\]/a Environment="KUBELET_CGROUP_ARGS=--cgroup-driver=systemd
 systemctl daemon-reload
 systemctl enable --now kubelet.service
 
-echo "modprobe br_netfilter" >> /etc/profile
-echo "modprobe dm_crypt" >> /etc/profile
-echo "sysctl -p /etc/sysctl.d/99-kubernetes.conf" >> /etc/profile
-echo "bash /etc/sysconfig/modules/ipvs.modules" >> /etc/profile
+cat << EOF | tee /usr/local/bin/init-modules.sh
+#!/bin/bash
+
+modprobe br_netfilter
+modprobe dm_crypt
+sysctl -p /etc/sysctl.d/99-kubernetes.conf
+bash /etc/sysconfig/modules/ipvs.modules
+EOF
+chmod a+x /usr/local/bin/init-modules.sh
+
+cat << EOF | tee /etc/systemd/system/init-modules.service
+[Unit]
+Description=Load kernel modules and sysctl settings for Kubernetes
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/init-modules.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl enable init-modules.service
 
 wget https://get.helm.sh/helm-v3.18.3-linux-amd64.tar.gz
 tar -zxvf helm-v3.18.3-linux-amd64.tar.gz
