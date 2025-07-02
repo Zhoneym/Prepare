@@ -192,9 +192,10 @@ Description=Load kernel modules and sysctl settings for Kubernetes
 After=network.target
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStart=/usr/local/bin/init-modules.sh
-RemainAfterExit=yes
+Restart=always
+RestartSec=20s
 
 [Install]
 WantedBy=multi-user.target
