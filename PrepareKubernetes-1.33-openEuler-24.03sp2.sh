@@ -1,4 +1,10 @@
 #!/bin/bash
+
+sed -i 's|https://repo.openeuler.org|https://mirrors.tuna.tsinghua.edu.cn/openeuler|g' /etc/yum.repos.d/openEuler.repo
+sed -i 's|gpgcheck=1|gpgcheck=0|g' /etc/yum.repos.d/openEuler.repo
+sed -i '/^metalink=/d' /etc/yum.repos.d/openEuler.repo
+sed -i '/^metadata_expire=/d' /etc/yum.repos.d/openEuler.repo
+sed -i '/^gpgkey=/d' /etc/yum.repos.d/openEuler.repo
 dnf update -y
 dnf install vim git zsh sqlite wget lsof nano util-linux-user tar open-iscsi nfs-utils -y
 systemctl enable --now iscsid
