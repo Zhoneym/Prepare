@@ -1,2 +1,2 @@
-# PrepareKubernetes
-PrepareKubernetes
+# Prepare
+Prepare Kubernetes OpenStack and GitLab
