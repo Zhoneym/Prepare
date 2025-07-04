@@ -1,10 +1,10 @@
+#!/bin/bash
 setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 iptables -F && iptables-save
 systemctl stop firewalld.service && systemctl disable firewalld.service
 HOST=$(hostname)
 IP=$(hostname -I | awk '{print $1}')
-
 if [ -n "$IP" ]; then
     FOUND_V4=$(grep -F "$IP" /etc/hosts)
     if [ -z "$FOUND_V4" ]; then
