@@ -11,7 +11,7 @@ echo "Select the container runtime to install:"
 echo "1) Docker with CRI-Dockerd"
 echo "2) CRI-o"
 echo "3) Containerd Version.1.7.27"
-echo "4) Containerd Version.2.1.3"
+echo "4) Containerd Version.2.1.4"
 read -p "Enter the number (1-4): " runtime
 if [ "$runtime" == "1" ]; then
     dnf config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
@@ -79,8 +79,8 @@ elif [ "$runtime" == "3" ]; then
     systemctl enable --now containerd
 elif [ "$runtime" == "4" ]; then
     dnf install container-selinux -y
-    wget https://gh-proxy.com/https://github.com/containerd/containerd/releases/download/v2.1.3/containerd-2.1.3-linux-amd64.tar.gz
-    tar Cxzvf /usr/local containerd-2.1.3-linux-amd64.tar.gz
+    wget https://gh-proxy.com/https://github.com/containerd/containerd/releases/download/v2.1.4/containerd-2.1.4-linux-amd64.tar.gz
+    tar Cxzvf /usr/local containerd-2.1.4-linux-amd64.tar.gz
     wget -O /etc/systemd/system/containerd.service https://gh-proxy.com/https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
     mkdir -p /etc/containerd/
     containerd config default > /etc/containerd/config.toml
