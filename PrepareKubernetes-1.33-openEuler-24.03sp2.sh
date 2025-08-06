@@ -117,7 +117,9 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1 
 net.ipv4.ip_forward = 1
 net.ipv6.conf.all.forwarding = 1
-vm.max_map_count=262144
+fs.inotify.max_user_watches=1073741816
+fs.inotify.max_user_instances=131072
+vm.max_map_count = 2147483647
 EOF
 modprobe br_netfilter
 modprobe dm_crypt
@@ -176,8 +178,8 @@ RestartSec=20s
 WantedBy=multi-user.target
 EOF
 systemctl enable init-modules.service
-wget https://get.helm.sh/helm-v3.18.3-linux-amd64.tar.gz
-tar -zxvf helm-v3.18.3-linux-amd64.tar.gz
+wget https://get.helm.sh/helm-v3.18.4-linux-amd64.tar.gz
+tar -zxvf helm-v3.18.4-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/local/bin/helm
 HOST=$(hostname)
 IP=$(hostname -I | awk '{print $1}')
