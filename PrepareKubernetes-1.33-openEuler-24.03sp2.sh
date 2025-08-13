@@ -19,11 +19,11 @@ if [ "$runtime" == "1" ]; then
     sed -i 's/\$releasever/10/g' /etc/yum.repos.d/docker-ce.repo
     dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin container-selinux -y
     systemctl enable --now docker.service docker.socket
-    wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.17/cri-dockerd-0.3.17.amd64.tgz
+    wget https://ghproxy.gpnu.org/https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.17/cri-dockerd-0.3.17.amd64.tgz
     tar xzvf cri-dockerd-0.3.17.amd64.tgz
     install -o root -g root -m 0755 cri-dockerd/cri-dockerd /usr/bin/cri-dockerd
-    wget -O /etc/systemd/system/cri-docker.service https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
-    wget -O /etc/systemd/system/cri-docker.socket https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
+    wget -O /etc/systemd/system/cri-docker.service https://ghproxy.gpnu.org/https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
+    wget -O /etc/systemd/system/cri-docker.socket https://ghproxy.gpnu.org/https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
     sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/cri-dockerd --network-plugin=cni --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.10 --container-runtime-endpoint fd://|' /etc/systemd/system/cri-docker.service
     systemctl daemon-reload
     systemctl enable --now cri-docker.service cri-docker.socket
@@ -55,9 +55,9 @@ default_network = "cni"
 network_dir = "/etc/cni/net.d/"
 plugin_dirs = ["/opt/cni/bin/"]
 EOF
-    wget https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64
+    wget https://ghproxy.gpnu.org/https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64
     install -m 755 runc.amd64 /usr/local/sbin/runc
-    wget https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz
+    wget https://ghproxy.gpnu.org/https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz
     mkdir -p /opt/cni/bin
     tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.7.1.tgz
     systemctl daemon-reload
@@ -70,25 +70,25 @@ elif [ "$runtime" == "3" ]; then
     containerd config default > /etc/containerd/config.toml
     sed -i 's|registry.k8s.io/pause:3.8|registry.aliyuncs.com/google_containers/pause:3.10|g' /etc/containerd/config.toml
     sed -i 's|SystemdCgroup = false|SystemdCgroup = true|g' /etc/containerd/config.toml
-    wget https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64
+    wget https://ghproxy.gpnu.org/https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64
     install -m 755 runc.amd64 /usr/local/sbin/runc
-    wget https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz
+    wget https://ghproxy.gpnu.org/https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz
     mkdir -p /opt/cni/bin
     tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.7.1.tgz
     systemctl daemon-reload
     systemctl enable --now containerd
 elif [ "$runtime" == "4" ]; then
     dnf install container-selinux -y
-    wget https://github.com/containerd/containerd/releases/download/v2.1.4/containerd-2.1.4-linux-amd64.tar.gz
+    wget https://ghproxy.gpnu.org/https://github.com/containerd/containerd/releases/download/v2.1.4/containerd-2.1.4-linux-amd64.tar.gz
     tar Cxzvf /usr/local containerd-2.1.4-linux-amd64.tar.gz
-    wget -O /etc/systemd/system/containerd.service https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
+    wget -O /etc/systemd/system/containerd.service https://ghproxy.gpnu.org/https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
     mkdir -p /etc/containerd/
     containerd config default > /etc/containerd/config.toml
     sed -i 's|registry.k8s.io|registry.aliyuncs.com/google_containers|g' /etc/containerd/config.toml
     sed -i "/enable_tls_streaming = false/a \    [plugins.'io.containerd.grpc.v1.cri'.containerd.runtimes.runc.options]\n      SystemdCgroup = true" /etc/containerd/config.toml
-    wget https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64
+    wget https://ghproxy.gpnu.org/https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64
     install -m 755 runc.amd64 /usr/local/sbin/runc
-    wget https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz
+    wget https://ghproxy.gpnu.org/https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz
     mkdir -p /opt/cni/bin
     tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.7.1.tgz
     systemctl daemon-reload

@@ -21,7 +21,7 @@ echo -e "[Manager]\nDefaultLimitNOFILE=1073741816" > /etc/systemd/user.conf
 curl "https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh" | bash
 GITLAB_ROOT_EMAIL="no-reply@gitlab.local" EXTERNAL_URL="http://gitlab.local" dnf install gitlab-ee ruby -y
 gem install gitlab-license
-wget https://gh-proxy.com/https://raw.githubusercontent.com/Zhoneym/PrepareKubernetes/refs/heads/main/License.rb
+wget https://gh-proxy.com/https://ghproxy.gpnu.org/https://raw.githubusercontent.com/Zhoneym/PrepareKubernetes/refs/heads/main/License.rb
 ruby License.rb
 rm -rf /opt/gitlab/embedded/service/gitlab-rails/.license_encryption_key.pub
 cp license_key.pub /opt/gitlab/embedded/service/gitlab-rails/.license_encryption_key.pub
