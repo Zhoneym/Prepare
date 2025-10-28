@@ -22,6 +22,7 @@ mkdir -p /app/onlyoffice/DocumentServer/Data
 mkdir -p /app/onlyoffice/DocumentServer/App_Data
 mkdir -p /app/onlyoffice/DocumentServer/sdkjs-plugins
 mkdir -p /app/onlyoffice/DocumentServer/logs
+mkdir -p /app/onlyoffice/DocumentServer/fonts
 mkdir -p /app/onlyoffice/MailServer/data/certs
 mkdir -p /app/onlyoffice/MailServer/logs
 mkdir -p /app/onlyoffice/ControlPanel/data
@@ -56,7 +57,7 @@ docker run --net onlyoffice -i -t -d --restart=always --name onlyoffice-mysql-se
 
 docker run --net onlyoffice -i -t -d --restart=always --name onlyoffice-document-server \
     --privileged -e ALLOW_PRIVATE_IP_ADDRESS=true -e JWT_ENABLED=false \
-    -v /app/onlyoffice/DocumentServer/logs:/var/log/onlyoffice \
+    -v /app/onlyoffice/DocumentServer/logs:/var/log/onlyoffice -v /app/onlyoffice/DocumentServer/fonts:/usr/share/fonts/truetype/custom \
     -v /app/onlyoffice/DocumentServer/Data:/var/www/onlyoffice/Data \
     -v /app/onlyoffice/DocumentServer/App_Data:/var/www/onlyoffice/App_Data \
     -v /app/onlyoffice/DocumentServer/sdkjs-plugins:/var/www/onlyoffice/documentserver/sdkjs-plugins \
@@ -65,8 +66,7 @@ docker run --net onlyoffice -i -t -d --restart=always --name onlyoffice-document
 docker run --init --net onlyoffice --privileged -i -t -d --restart=always --name onlyoffice-mail-server -p 25:25 -p 143:143 -p 587:587 \
     -e MYSQL_SERVER=onlyoffice-mysql-server \
     -e MYSQL_SERVER_PORT=3306 -e MYSQL_ROOT_USER=root \
-    -e MYSQL_ROOT_PASSWD=onlyoffice-password \
-    -e MYSQL_SERVER_DB_NAME=onlyoffice_mailserver \
+    -e MYSQL_ROOT_PASSWD=onlyoffice-password -e MYSQL_SERVER_DB_NAME=onlyoffice_mailserver \
     -v /app/onlyoffice/MailServer/data:/var/vmail \
     -v /app/onlyoffice/MailServer/data/certs:/etc/pki/tls/mailserver \
     -v /app/onlyoffice/MailServer/logs:/var/log \
